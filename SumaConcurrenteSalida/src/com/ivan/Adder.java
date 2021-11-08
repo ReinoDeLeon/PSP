@@ -32,6 +32,7 @@ public class Adder {
 		int endNumber = Integer.parseInt(args[1]);
 		var processName = args[2];
 		Adder adder = new Adder(startNumer, endNumber, processName);
-		System.out.println(String.format("El resultado es = %d", adder.add()));
+		int result = adder.add();
+		System.out.println(result);
 	}
 }
