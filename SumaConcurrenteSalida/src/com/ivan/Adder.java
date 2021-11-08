@@ -14,9 +14,7 @@ public class Adder {
 	public int add() {
 		int result = 0;
 		for (int i = _startNumber; i < _endNumber; i++) {
-			System.out.print(String.format("Iteración Nº%d %s --> %d + %d = ", i, _processName,result, i));
 			result += i;
-			System.out.print(result + "\n");
 		}
 		return result;
 	}
@@ -27,12 +25,13 @@ public class Adder {
 		return "Adder [_startNumber=" + _startNumber + ", _endNumber=" + _endNumber + "]";
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		int startNumer = Integer.parseInt(args[0]);
 		int endNumber = Integer.parseInt(args[1]);
 		var processName = args[2];
 		Adder adder = new Adder(startNumer, endNumber, processName);
 		int result = adder.add();
+		Thread.sleep(5000);
 		System.out.println(result);
 	}
 }
