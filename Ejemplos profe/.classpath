@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="1.crear.hilo/src"/>
+	<classpathentry kind="src" path="2.interrupt.thread/src"/>
+	<classpathentry kind="src" path="3.join.thread/src"/>
+	<classpathentry kind="src" path="4.thread.interference/src"/>
+	<classpathentry kind="src" path="5.synchronized.methods/src"/>
+	<classpathentry kind="src" path="6.synchronized.statements/src"/>
+	<classpathentry kind="src" path="7.deadlock/src"/>
+	<classpathentry kind="src" path="8.producer.consumer/src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
