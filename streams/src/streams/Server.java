@@ -9,8 +9,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-	private static final int MAX_PORT_NUMBER = 65535;
-	private static final int MIN_PORT_NUMBER = 1;
+	public static final int MAX_PORT_NUMBER = 65535;
+	public static final int MIN_PORT_NUMBER = 1;
 	public static void main(String[] args) throws IOException {
 		if (args.length!=1) { // No args
 			System.err.println("Usage: java Sever <port number>");
