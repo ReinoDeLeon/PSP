@@ -8,13 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class BinFileDownloader extends FileDownloader {
-	
+
 	private static final String PNG = ".png";
 
 	final private String JPG = ".jpg";
-	
+
 	private byte[] bytes;
-	
+
 
 	public BinFileDownloader(String url_origin, String storage) throws MalformedURLException {
 		super(url_origin, Paths.get(System.getProperty("user.home"), "downloads", storage));
