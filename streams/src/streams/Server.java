@@ -35,7 +35,7 @@ public class Server {
 				PrintWriter socketOut = new PrintWriter(clientSocket.getOutputStream(), true); // True so it sends the data automatically 				
 				) {
 			String line;
-				while ((line = socketIn.readLine()) != null) { // We read from client, null --> client closed conection
+				while ((line = socketIn.readLine()) != null) { // We read from client, null --> client closed connection
 					socketOut.println(line); 
 				}
 				
