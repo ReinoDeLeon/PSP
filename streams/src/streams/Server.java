@@ -35,8 +35,13 @@ public class Server {
 				PrintWriter socketOut = new PrintWriter(clientSocket.getOutputStream(), true); // True so it sends the data automatically 				
 				) {
 			String line;
+			String lineReverse="";
 				while ((line = socketIn.readLine()) != null) { // We read from client, null --> client closed connection
-					socketOut.println(line); 
+					for (int i = line.length()-1; i >= 0; i--) {
+						lineReverse += line.charAt(i);
+					} 
+					socketOut.println(lineReverse);
+					lineReverse = "";
 				}
 				
 			}
