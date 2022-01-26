@@ -1,0 +1,5 @@
+-Dfile.encoding=Cp1252
+-classpath
+"C:\\Users\\ivana\\Documents\\Programación de servicios y procesos\\streams\\bin"
+-XX:+ShowCodeDetailsInExceptionMessages
+streams.Server
