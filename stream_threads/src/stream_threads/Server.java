@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Observable;
 
 public class Server {
 	public static final int MAX_PORT_NUMBER = 65535;
 	public static final int MIN_PORT_NUMBER = 1;
+	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		if (args.length!=1) { // No args
 			System.err.println("Usage: java Sever <port number>");
@@ -26,13 +28,15 @@ public class Server {
 			System.exit(1);
 		}
 
-		try (ServerSocket serverSocket = new ServerSocket(portNumber);){
+		Observable observable = new Observable();
+		try (
+				ServerSocket serverSocket = new ServerSocket(portNumber);
+				){
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); 
 				System.out.printf("%s connected\n", clientSocket.toString());
-				PeerConnection peerConnection = new PeerConnection(clientSocket);
+				PeerConnection peerConnection = new PeerConnection(clientSocket, observable);
 				peerConnection.start();
-				peerConnection.join();
 
 			}
 		}catch (BindException e) { // Port in use
