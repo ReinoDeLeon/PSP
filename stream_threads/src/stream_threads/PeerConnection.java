@@ -51,7 +51,6 @@ public class PeerConnection extends Thread implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-
-		socketOut.write(arg.toString());
+		socketOut.println(arg.toString());
 	}
 }

@@ -28,14 +28,14 @@ public class Server {
 			System.exit(1);
 		}
 
-		Observable observable = new Observable();
 		try (
 				ServerSocket serverSocket = new ServerSocket(portNumber);
 				){
+			Observable channel = new Channel();
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); 
 				System.out.printf("%s connected\n", clientSocket.toString());
-				PeerConnection peerConnection = new PeerConnection(clientSocket, observable);
+				PeerConnection peerConnection = new PeerConnection(clientSocket, channel);
 				peerConnection.start();
 
 			}

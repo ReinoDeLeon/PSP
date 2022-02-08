@@ -29,7 +29,7 @@ public class Client {
 			System.err.printf("Usage: <ip address> %s is invalid\n", args[0]);
 			System.exit(1);
 		}
-		
+
 		int portNumber = 0;
 		try {
 			portNumber = Integer.parseInt(args[1]);
@@ -42,22 +42,77 @@ public class Client {
 			System.err.printf("Error: java Sever <port number> value must be an integer between %d and %d\n", Server.MIN_PORT_NUMBER, Server.MAX_PORT_NUMBER);
 			System.exit(1);
 		}
-		try (
-				Socket socket = new Socket(host, portNumber);
-				BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true); // True so it sends the data automatically 	
-				BufferedReader standardIn = new BufferedReader((new InputStreamReader(System.in)));
 
-				){
-			String line;
-			while ((line = standardIn.readLine()) != null) {
-				socketOut.println(line);
-				System.out.println(socketIn.readLine());;
+		//		try (
+		Socket socket = new Socket(host, portNumber);
+			//		}catch (BindException e) { // Port in use
+			//			System.err.printf("Error: port %d is already in use\n", portNumber);
+			//			System.exit(1);
+			//		}
+
+			Thread keyboardThread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					BufferedReader standardIn = null;
+					PrintWriter socketOut = null; //Null so the finally block doesn't launch exception
+					try {
+						standardIn = new BufferedReader((new InputStreamReader(System.in)));
+						socketOut = new PrintWriter(socket.getOutputStream(), true); // True so it sends the data automatically 	
+						String line;
+						while ((line = standardIn.readLine()) != null) {
+							socketOut.println(line);
+						}
+					} catch (IOException e) {
+
+
+					} finally {
+						try {
+							standardIn.close();
+							socketOut.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}
+			});
+
+			Thread networkThread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					BufferedReader socketIn = null;
+					try {
+						socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+						String line;
+						while ((line = socketIn.readLine()) != null) {
+							System.out.println(line);
+						}
+					} 
+					catch (IOException e) {
+					} 
+					finally {
+						try {
+							socketIn.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}
+			});	
+			
+			keyboardThread.start();
+			networkThread.start();
+			try {
+				keyboardThread.join();
+				networkThread.join();
+			} catch (InterruptedException e) {
+				
 			}
-
-		}catch (BindException e) { // Port in use
-			System.err.printf("Error: port %d is already in use\n", portNumber);
-			System.exit(1);
 		}
 	}
-}
+	
