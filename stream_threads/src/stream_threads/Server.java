@@ -37,7 +37,6 @@ public class Server {
 				System.out.printf("%s connected\n", clientSocket.toString());
 				PeerConnection peerConnection = new PeerConnection(clientSocket, channel);
 				peerConnection.start();
-
 			}
 		}catch (BindException e) { // Port in use
 				System.err.printf("Error: port %d is already in use\n", portNumber);

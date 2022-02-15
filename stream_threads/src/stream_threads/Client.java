@@ -62,6 +62,7 @@ public class Client {
 						String line;
 						while ((line = standardIn.readLine()) != null) {
 							socketOut.println(line);
+							
 						}
 					} catch (IOException e) {
 

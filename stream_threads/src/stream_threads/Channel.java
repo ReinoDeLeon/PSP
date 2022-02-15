@@ -1,6 +1,8 @@
 package stream_threads;
 
 import java.util.Observable;
+import java.util.Observer;
+import java.util.Vector;
 
 public class Channel extends Observable {
 	@Override
@@ -8,4 +10,5 @@ public class Channel extends Observable {
 		setChanged();
 		super.notifyObservers(arg);
 	}
+	
 }
