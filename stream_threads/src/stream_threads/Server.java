@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Observable;
 
 public class Server {
 	public static final int MAX_PORT_NUMBER = 65535;
@@ -31,7 +30,7 @@ public class Server {
 		try (
 				ServerSocket serverSocket = new ServerSocket(portNumber);
 				){
-			Observable channel = new Channel();
+			Observable channel = new Observable();
 			while (true) {
 				Socket clientSocket = serverSocket.accept(); 
 				System.out.printf("%s connected\n", clientSocket.toString());

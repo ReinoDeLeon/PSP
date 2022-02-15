@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observable;
-import java.util.Observer;
 
 public class PeerConnection extends Thread implements Observer{
 
@@ -15,14 +13,14 @@ public class PeerConnection extends Thread implements Observer{
 	private static final String COMMAND_PREFIX = "/";
 	public String clientNickname = "Unkown";
 	private Socket clientSocket;
-	private Channel observable;
+	private Observable observable;
 	private PrintWriter socketOut;
 	private BufferedReader socketIn;
 	private String privateNickname;
 
 	public PeerConnection(Socket _clientSocket, Observable _observable) throws IOException {
 		clientSocket = _clientSocket;
-		observable = (Channel) _observable;
+		observable = _observable;
 		observable.addObserver(this);
 		socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
 		socketIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -50,7 +48,8 @@ public class PeerConnection extends Thread implements Observer{
 						//String nickValue = line.substring(line.indexOf(" "));
 						privateNickname = commandGetter.substring("priv".length()+1, commandGetter.lastIndexOf(COMMAND_PREFIX));
 						String message = commandGetter.substring(commandGetter.lastIndexOf(COMMAND_PREFIX)+1);
-						observable.notifyObservers(String.format("%s to %s from [%s]: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, message));
+						observable.notifySpecificObserver(String.format("%s to %s from [%s]: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, message), clientNickname);
+						observable.notifySpecificObserver(String.format("%s to %s from [%s]: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, message), privateNickname);
 					}
 				} 
 				
@@ -81,13 +80,10 @@ public class PeerConnection extends Thread implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg.toString().startsWith(PRIVATE_MESSAGE)) { //Comprobamos que la frase comience por mensaje privado indicando que de hecho lo es
-			String userAndMessage = arg.toString().substring(PRIVATE_MESSAGE.length()); //Conjunto de usuario objetivo y mensaje a mostrar
-			String user = userAndMessage.substring(4, userAndMessage.indexOf(" from")); //Guardamos el usuario objetivo
-			String message = userAndMessage.substring(userAndMessage.indexOf(" from ")); //Guardamos el mensaje a mostrar con el emisor y el mensaje
-			if(clientNickname.equals(user)) {
-			socketOut.println(String.format("%s%s", PRIVATE_MESSAGE, message));
+			
+			socketOut.println(String.format("%s", arg));
 		}
-		} else if(arg.toString().startsWith(PUBLIC_MESSAGE)){
+		 else if(arg.toString().startsWith(PUBLIC_MESSAGE)){
 			socketOut.println(arg.toString());
 		}
 	}
