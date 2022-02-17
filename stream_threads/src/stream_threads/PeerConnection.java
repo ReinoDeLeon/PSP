@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class PeerConnection extends Thread implements Observer{
 
@@ -33,7 +35,7 @@ public class PeerConnection extends Thread implements Observer{
 
 			String line;
 			while ((line = socketIn.readLine()) != null) { // We read from client, null --> client closed connection
-				
+				String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 				if (line.startsWith(COMMAND_PREFIX)) {
 					//String commandGetter = line.substring(1, line.indexOf(" "));
 					String commandGetter = line.substring(1);
@@ -48,13 +50,13 @@ public class PeerConnection extends Thread implements Observer{
 						//String nickValue = line.substring(line.indexOf(" "));
 						privateNickname = commandGetter.substring("priv".length()+1, commandGetter.lastIndexOf(COMMAND_PREFIX));
 						String message = commandGetter.substring(commandGetter.lastIndexOf(COMMAND_PREFIX)+1);
-						observable.notifySpecificObserver(String.format("%s to %s from [%s]: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, message), clientNickname);
-						observable.notifySpecificObserver(String.format("%s to %s from [%s]: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, message), privateNickname);
+						observable.notifySpecificObserver(String.format("%s to %s from [%s]%s: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, timeStamp, message), clientNickname);
+						observable.notifySpecificObserver(String.format("%s to %s from [%s]%s: %s", PRIVATE_MESSAGE ,privateNickname, clientNickname, timeStamp, message), privateNickname);
 					}
 				} 
 				
 				else {
-					observable.notifyObservers(String.format("%s[%s]: %s", PUBLIC_MESSAGE ,clientNickname, line));
+					observable.notifyObservers(String.format("%s[%s]%s: %s", PUBLIC_MESSAGE ,clientNickname, timeStamp, line));
 				}
 				
 				

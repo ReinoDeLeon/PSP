@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="ProccesBuilder/src"/>
+	<classpathentry kind="src" path="stream_threads/src"/>
+	<classpathentry kind="src" path="streams/src"/>
+	<classpathentry kind="src" path="SumaConcurrenteSalida/src"/>
+	<classpathentry kind="src" path="url/src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
